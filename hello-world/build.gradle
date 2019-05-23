@@ -1,0 +1,54 @@
+// buildscript ä»£ç �å�—ä¸­è„šæœ¬ä¼˜å…ˆæ‰§è¡Œ
+buildscript {
+
+	// ext ç”¨äºŽå®šä¹‰åŠ¨æ€�å±žæ€§
+	ext {
+		springBootVersion = '2.0.0.M4'
+	}
+
+	// ä½¿ç”¨äº†Mavençš„ä¸­å¤®ä»“åº“å�ŠSpringè‡ªå·±çš„ä»“åº“ï¼ˆä¹Ÿå�¯ä»¥æŒ‡å®šå…¶ä»–ä»“åº“ï¼‰
+	repositories {
+		// mavenCentral()
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+	}
+
+	// ä¾�èµ–å…³ç³»
+	dependencies {
+
+		// classpath å£°æ˜Žäº†åœ¨æ‰§è¡Œå…¶ä½™çš„è„šæœ¬æ—¶ï¼ŒClassLoader å�¯ä»¥ä½¿ç”¨è¿™äº›ä¾�èµ–é¡¹
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+// ä½¿ç”¨æ�’ä»¶
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+// æŒ‡å®šäº†ç”Ÿæˆ�çš„ç¼–è¯‘æ–‡ä»¶çš„ç‰ˆæœ¬ï¼Œé»˜è®¤æ˜¯æ‰“æˆ�äº† jar åŒ…
+group = 'com.waylau.spring.cloud'
+version = '1.0.0'
+
+// æŒ‡å®šç¼–è¯‘ .java æ–‡ä»¶çš„ JDK ç‰ˆæœ¬
+sourceCompatibility = 1.8
+
+// ä½¿ç”¨äº†Mavençš„ä¸­å¤®ä»“åº“å�ŠSpringè‡ªå·±çš„ä»“åº“ï¼ˆä¹Ÿå�¯ä»¥æŒ‡å®šå…¶ä»–ä»“åº“ï¼‰
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
+	//maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+}
+
+// ä¾�èµ–å…³ç³»
+dependencies {
+
+	// è¯¥ä¾�èµ–ç”¨äºŽç¼–è¯‘é˜¶æ®µ
+	compile('org.springframework.boot:spring-boot-starter-web')
+
+	// è¯¥ä¾�èµ–ç”¨äºŽæµ‹è¯•é˜¶æ®µ
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
