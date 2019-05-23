@@ -49,8 +49,14 @@ dependencies {
 	// 该依赖用于编译阶段
 	compile('org.springframework.boot:spring-boot-starter-web')
 
-	// HttpClient
+	// 添加 HttpClient 依赖
 	compile('org.apache.httpcomponents:httpclient:4.5.3')
+	
+	// Redis
+	compile('org.springframework.boot:spring-boot-starter-data-redis')
+	
+	// Quartz
+	compile('org.springframework.boot:spring-boot-starter-quartz')
 
 	// 该依赖用于测试阶段
 	testCompile('org.springframework.boot:spring-boot-starter-test')
