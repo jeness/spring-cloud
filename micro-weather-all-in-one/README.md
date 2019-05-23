@@ -150,3 +150,16 @@ GET localhost:8080/weather/cityName/深圳
 1. 减轻访问上游API带来的延时问题，确保及时响应
 2. 减少（上游api的）服务调用，减轻天气接口的负担，提高并发访问量
 + 天气不需要实时更新，定时更新数据即可（例如半小时更新一次），这种场景非常适合应用Redis缓存
+
+# 3.quartz scheduler 定时获取天气数据
+Every 1800 seconds | 30 mins, synchronize weather data(excute WeatherDataServiceImpl on cities in CityList.xml) once.
+
+## Environment
++ JDK 8
++ Gradle 4
++ Redis 3.2.100
++ Apache HttpClient 4.5.3 (Request thrird party API to get weather info)
++ Spring Boot Web Starter
++ Spring Boot Data Redis Starter
++ Spring Boot Quartz Starter
++ Quartz Scheduler
