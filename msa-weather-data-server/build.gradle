@@ -54,12 +54,6 @@ dependencies {
 	
 	// Redis
 	compile('org.springframework.boot:spring-boot-starter-data-redis')
-	
-	// Quartz
-	compile('org.springframework.boot:spring-boot-starter-quartz')
-	
-	// Spring Boot Thymeleaf Starter
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 
 	// 该依赖用于测试阶段
 	testCompile('org.springframework.boot:spring-boot-starter-test')
