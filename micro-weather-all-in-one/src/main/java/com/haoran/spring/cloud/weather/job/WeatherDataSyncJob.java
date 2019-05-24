@@ -35,7 +35,7 @@ public class WeatherDataSyncJob extends QuartzJobBean {
 		List<City> cityList = null;
 		
 		try {
-			cityList = cityDataService.ListCity();
+			cityList = cityDataService.listCity();
 		} catch (Exception e) {
 			Logger.error("Exception!" + e);
 //			e.printStackTrace();

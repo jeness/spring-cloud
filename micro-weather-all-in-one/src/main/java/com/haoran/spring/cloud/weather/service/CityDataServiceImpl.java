@@ -19,7 +19,7 @@ import com.haoran.spring.cloud.weather.vo.CityList;
 public class CityDataServiceImpl implements CityDataService {
 
 	@Override
-	public List<City> ListCity() throws Exception {
+	public List<City> listCity() throws Exception {
 		//读取XML文件
 		Resource resource = new ClassPathResource("citylist.xml");
 		BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "utf-8"));

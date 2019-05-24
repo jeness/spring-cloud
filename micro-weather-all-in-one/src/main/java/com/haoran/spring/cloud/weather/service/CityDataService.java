@@ -8,5 +8,5 @@ import com.haoran.spring.cloud.weather.vo.City;
 * @description City Data Service
 */
 public interface CityDataService {
-	List<City> ListCity() throws Exception;
+	List<City> listCity() throws Exception;
 }
