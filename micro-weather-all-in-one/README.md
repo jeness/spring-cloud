@@ -225,3 +225,10 @@ GET /cities
 ```
 #### Storage 存储设计
 Redis（NoSQL） XML
+
+# 服务注册和发现
+## 使用Eureka
++ 服务注册和发现机制
++ 和Spring Cloud 无缝集成
++ 高可用性
++ 开源
