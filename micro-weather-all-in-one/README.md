@@ -207,6 +207,7 @@ APP可以拆分为以下的服务：城市数据 天气数据 数据同步 天�
 ### DDD 拆分服务
 #### 天气数据采集 msa-weather-collection-server
 数据采集、数据存储
+数据采集微服务在天气数据同步任务中，依赖于城市数据API微服务
 #### 天气数据API msa-weather-data-server
 数据查询
 ```
@@ -218,11 +219,17 @@ GET /weather/cityName/{cityName}
 ```
 GET /report/cityId/{cityId}
 ```
+天气预报微服务查询天气信息，依赖于天气数据API微服务
+天气预报微服务提供的城市列表，依赖于城市数据API微服务
 #### 城市数据API msa-weahter-city-server
 数据查询
 ```
 GET /cities
 ```
+#### 存在三个TODO
+数据采集微服务在天气数据同步任务中，依赖于城市数据API微服务
+天气预报微服务查询天气信息，依赖于天气数据API微服务
+天气预报微服务提供的城市列表，依赖于城市数据API微服务
 #### Storage 存储设计
 Redis（NoSQL） XML
 
@@ -273,7 +280,12 @@ F:\webProject\springcloud\msa-weather-report-eureka>cd build/libs
 F:\webProject\springcloud\msa-weather-report-eureka\build\libs>java -jar msa-weather-report-eureka-1.0.0.jar --server.port=8087
 F:\webProject\springcloud\msa-weather-report-eureka\build\libs>java -jar msa-weather-report-eureka-1.0.0.jar --server.port=8088
 ```
-# 微服务的消费模式
+# 微服务的消费模式 consumer
+SOA (Service Oriented Architecture)
++ Service provider: public its service and give response to the request
++ Service broker: register the published services, classify them and provide search engine
++ Service consumer: find requested service from service broker and utilize the service
+![soa](readmeImage/soa.png)
 ## 1. 服务直连模式
 ### 特点
 + 简洁明了，只要传入一个url，就能获取资源
@@ -315,6 +327,19 @@ Ribbon 的一个中心概念就是命名客户端（named clien）。 每个负�
 ### Client side lb Example 2: Feign
 ```
 micro-weather-eureka-client -> micro-weahter-eureka-client-feign
+```
+#### 在我们的四个天气微服务中，有三个`TODO`项：
+
+- 数据采集微服务(collection)在天气数据同步任务中，依赖于城市数据API微服务city
+- 天气预报微服务(report)查询天气信息，依赖于天气数据API微服务data
+- 天气预报微服务(report)提供的城市列表，依赖于城市数据API微服务city
+
+那么我们可以看出来，需要去集成Feign去消费的微服务只有两个：`msa-weather-collection-eureka`和`msa-weather-report-eureka`。我们将其改造为：`msa-weather-collection-eureka-feign`和`msa-weather-report-eureka-feign`.
+```
+msa-weather-colleciton-eureka -> msa-weather-collection-eureka-feign
+msa-weather-data-eureka
+msa-weather-city-eureka
+msa-weather-report-eureka -> msa-weather-report-eureka-feign
 ```
 #### Dependency
 #### Injection
