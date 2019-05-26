@@ -273,3 +273,53 @@ F:\webProject\springcloud\msa-weather-report-eureka>cd build/libs
 F:\webProject\springcloud\msa-weather-report-eureka\build\libs>java -jar msa-weather-report-eureka-1.0.0.jar --server.port=8087
 F:\webProject\springcloud\msa-weather-report-eureka\build\libs>java -jar msa-weather-report-eureka-1.0.0.jar --server.port=8088
 ```
+# 微服务的消费模式
+## 1. 服务直连模式
+### 特点
++ 简洁明了，只要传入一个url，就能获取资源
++ 平台语言无关性，http的特点，不需要框架和技术来实现，
++ 无法保证服务的可用性，一旦ip地址宕机，就无法用到资源
++ 生产环境中比较少用
+### Example: Apache HttpClient
+#### Dependency
+![httpclient-dependency](readmeImage/httpclient-dependency.png)
+#### Injection
+![httpclient-injection](readmeImage/httpclient-injection.png)
+#### Usage
+![httpclient-usage](readmeImage/httpclient-usage.png)
+## 2. 客户端发现模式
+### Steps
++ 服务实例启动后，将自己的位置信息提交到服务注册表
++ 客户端从服务注册表进行查询，来获取可用的服务实例
++ 客户端自行使用负载均衡算法从多个服务实例中选择出一个
+### Implement availabity for the service
+将我们需要访问的服务（比如，“micro-weather-eureka-client”），启动为多个示例。当客户端需要访问“micro-weather-eureka-client”时，会自行去选择其中任意一个服务实例来访问，这样，即便其中的某个服务实例不可用，也不会影响整个服务功能。
+这样就实现了服务的高可用。
+### Diagram
+![client](readmeImage/client-lb.png)
+### Client side lb Example 1: Ribbon
+HTTP & TCP, use with eureka, 有很多负载均衡的算法<br>
+Ribbon 是一个客户端负载平衡器，它可以很好地控制HTTP和TCP客户端的行为。 Feign 已经使用 Ribbon，所以如果你使用@FeignClient，就已经启用了客户端负载均衡功能。
+Ribbon 的一个中心概念就是命名客户端（named clien）。 每个负载平衡器都是组合的组件的一部分，它们一起工作以根据需要联系远程服务器，并且集合具有您将其作为应用程序开发人员（例如使用@FeignClient注解）的名称。 Spring Cloud使用RibbonClientConfiguration为每个命名的客户端根据需要创建一个新的集合作为ApplicationContext。 这包含（其中包括）一个ILoadBalancer，一个RestClient和一个ServerListFilter。
+#### Dependency
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+</dependency>
+```
+#### Injection
+![ribbon-injection](readmeImage/ribbon-injection.png)
+#### Usage
+![ribbon-usage](readmeImage/ribbon-usage.png)
+### Client side lb Example 2: Feign
+```
+micro-weather-eureka-client -> micro-weahter-eureka-client-feign
+```
+#### Dependency
+#### Injection
+#### Usage
+## 3. 服务端发现模式
+load balancer 处于服务端，从多个服务实例中选择出一个实例
+### Diagram
+![server](readmeImage/server-lb.png)
