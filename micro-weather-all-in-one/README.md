@@ -354,7 +354,7 @@ F:\webProject\springcloud\msa-weather-report-eureka-feign\build\libs>java -jar m
 F:\webProject\springcloud\msa-weather-report-eureka-feign\build\libs>java -jar msa-weather-report-eureka-feign-1.0.0.jar --server.port=8088
 ```
 See load balancer console result in `localhost:8761`:
-![load-balancer](readmeImage/loadbalancer-console.png)
+![load-balancer](readmeImage/load-balancer-console.png)
 #### Dependency
 #### Injection
 #### Usage
