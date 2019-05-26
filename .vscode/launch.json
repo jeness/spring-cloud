@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Application",
+            "request": "launch",
+            "mainClass": "com.waylau.spring.cloud.weather.Application",
+            "projectName": "micro-weather-eureka-server"
+        }
+    ]
+}
