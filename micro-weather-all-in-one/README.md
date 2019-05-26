@@ -263,13 +263,13 @@ F:\webProject\springcloud\msa-weather-data-eureka>cd build/libs
 F:\webProject\springcloud\msa-weather-data-eureka\build\libs>java -jar msa-weather-data-eureka-1.0.0.jar --server.port=8083
 F:\webProject\springcloud\msa-weather-data-eureka\build\libs>java -jar msa-weather-data-eureka-1.0.0.jar --server.port=8084
 
-F:\webProject\springcloud\msa-weather-report-eureka>gradle wrapper build
-F:\webProject\springcloud\msa-weather-report-eureka>cd build/libs
-F:\webProject\springcloud\msa-weather-report-eureka\build\libs>java -jar msa-weather-report-eureka-1.0.0.jar --server.port=8087
-F:\webProject\springcloud\msa-weather-report-eureka\build\libs>java -jar msa-weather-report-eureka-1.0.0.jar --server.port=8088
-
 F:\webProject\springcloud\msa-weather-city-eureka>gradle wrapper build
 F:\webProject\springcloud\msa-weather-city-eureka>cd build/libs
 F:\webProject\springcloud\msa-weather-city-eureka\build\libs>java -jar msa-weather-city-eureka-1.0.0.jar --server.port=8085
 F:\webProject\springcloud\msa-weather-city-eureka\build\libs>java -jar msa-weather-city-eureka-1.0.0.jar --server.port=8086
+
+F:\webProject\springcloud\msa-weather-report-eureka>gradle wrapper build
+F:\webProject\springcloud\msa-weather-report-eureka>cd build/libs
+F:\webProject\springcloud\msa-weather-report-eureka\build\libs>java -jar msa-weather-report-eureka-1.0.0.jar --server.port=8087
+F:\webProject\springcloud\msa-weather-report-eureka\build\libs>java -jar msa-weather-report-eureka-1.0.0.jar --server.port=8088
 ```

@@ -1,4 +1,4 @@
-# MicroService天气数据采集 msa-weather-collection-server
+# MicroService天气数据采集 msa-weather-collection-eureka
 Weather Data Collection Service
 数据采集、数据存储
 ## Environment
@@ -9,6 +9,16 @@ Weather Data Collection Service
 + Spring Boot Web Starter
 + Spring Boot Data Redis Starter
 + Quartz Scheduler
++ Spring Cloud Starter Netflix Eureka Client Finchley.M2
+## build package and run micro service as client
+On port 8081 and port 8082
+```
+//Remember to start Redis first!
+F:\webProject\springcloud\msa-weather-collection-eureka>gradle wrapper build
+F:\webProject\springcloud\msa-weather-collection-eureka>cd build/libs
+F:\webProject\springcloud\msa-weather-collection-eureka\build\libs>java -jar msa-weather-collection-eureka-1.0.0.jar --server.port=8081
+F:\webProject\springcloud\msa-weather-collection-eureka\build\libs>java -jar msa-weather-collection-eureka-1.0.0.jar --server.port=8082
+```
 ## Achievement
 Get weather info by cityId: http://wthrcdn.etouch.cn/weather_mini?citykey=101280601.
 And store into Redis.
