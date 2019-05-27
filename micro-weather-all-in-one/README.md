@@ -145,6 +145,7 @@ GET localhost:8080/weather/cityName/深圳
 }
 ```
 # 2. 使用Redis来提升Weather forcast service app的并发访问能力
+`micro-weather-redis`
 前提：Weather forcast service app 能实现简单的天气查询
 ## 为什么使用Redis （目前的系统存在以下问题）
 1. app作为relay的中介，用户调用中介，中介调用上游API，可能产生延时delay
@@ -156,14 +157,18 @@ GET localhost:8080/weather/cityName/深圳
 + 天气不需要实时更新，定时更新数据即可（例如半小时更新一次），这种场景非常适合应用Redis缓存
 
 # 3.quartz scheduler 定时获取天气数据
+`micro-weather-quartz`
 Every 1800 seconds | 30 mins, synchronize weather data(excute WeatherDataServiceImpl on cities in CityList.xml) once.
 
 # 4.Combine with thymeleaf-frontend
+`micro-weather-report`
 ## API
 Get weather info by cityId: http://localhost:8080/report/cityId/101280501
 ```
 GET /report/cityId/{cityId}
 ```
+# 至此，micro-weather-report 就是一个完整的springboot项目
+`micro-weather-all-in-one`
 # 微服务
 ## 单块架构的优缺点
 ->请求
@@ -240,6 +245,7 @@ Redis（NoSQL） XML
 + 高可用性
 + 开源
 ## Steps
+一个eureka micro-service client的模板：`micro-weather-eureka-client`
 ```
 msa-weather-collection-server -> msa-weather-collection-eureka
 msa-weather-data-server -> msa-weather-data-eureka
@@ -247,6 +253,7 @@ msa-weather-city-server -> msa-weather-city-eureka
 msa-weather-report-server -> msa-weather-report-eureka
 ```
 ## Configuration-server and start app on port 8761
+Server is : `micro-weather-eureka-server`
 @EnableEurekaServer in `app.java`
 server.port: 8761
 ## Start-Client
