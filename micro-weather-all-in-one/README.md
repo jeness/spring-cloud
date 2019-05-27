@@ -360,6 +360,7 @@ F:\webProject\springcloud\msa-weather-city-eureka\build\libs>java -jar msa-weath
 F:\webProject\springcloud\msa-weather-report-eureka-feign\build\libs>java -jar msa-weather-report-eureka-feign-1.0.0.jar --server.port=8087
 F:\webProject\springcloud\msa-weather-report-eureka-feign\build\libs>java -jar msa-weather-report-eureka-feign-1.0.0.jar --server.port=8088
 ```
+See the web application in `http://localhost:8088/report/cityId/101280209`.
 See load balancer console result in `localhost:8761`:
 ![load-balancer](readmeImage/load-balancer-console.png)
 #### Dependency
@@ -369,3 +370,62 @@ See load balancer console result in `localhost:8761`:
 load balancer 处于服务端，从多个服务实例中选择出一个实例
 ### Diagram
 ![server](readmeImage/server-lb.png)
+
+# API 网关
+## 好处
++ 避免将内部信息泄露给外部
++ 为微服务添加额外的安全层
++ 支持混合通信协议
++ 降低构建微服务的复杂性，从代码层隔离功能项，使得码工更专注于核心业务
++ 微服务模拟与虚拟化，虚拟的API，设计上的要求，做集成测试
+## 坏处
++ 在架构上需要额外考虑更多的编排与管理，那些micro service放在哪些API中
++ 路由逻辑配置要进行统一的管理
++ 可能引发单点故障，API网关作为单一入口，高并发场景下，一旦宕机，会导致所有micro service不可用
+## API的常见实现方式
+### Nginx
+高性能 稳定 低消耗资源 高并发能力
+![nginx](readmeImage/nginx.png)
+### Spring Cloud Zuul
+提供了认证、鉴权、限流、动态路由、监控、弹性、安全、负载均衡、协助单点压测、静态响应等边缘服务的框架
+#### Zuul Intergration
++ micro-weather-eureka-client -> micro-weather-eureka-client-zuul
++ 配置写法
+```
+spring.application.name: micro-weather-eureka-client-zuul
+eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
+zuul.routes.hi.path: /hi/**
+zuul.routes.hi.serviceId: micro-weather-eureka-client
+```
++ Port
+java -jar micro-weather-eureka-client-1.0.0.jar --server.port=8081
+Zuul port:8080
++ valid url
+http://localhost:8081/hello
+http://localhost:8080/hi/hello
+#### Zuul Intergration in weather app
+```
+msa-weather-collection-eureka-feign 
+msa-weather-data-eureka
+msa-weather-city-eureka
+msa-weather-report-eureka-feign -> msa-weather-report-eureka-feign-gateway
+新增的zuul api：micro-weather-eureka-client-zuul
+```
+把report对于data API和city API的依赖修改为依赖Zuul API网关
+![api-zuul-gateway](readmeImage/api-zuul-gateway.png)
++ 配置写法
+```
+spring.application.name: msa-weather-eureka-client-zuul
+eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
+
+zuul.routes.city.path: /city/**
+zuul.routes.city.serviceId: msa-weather-city-eureka
+
+zuul.routes.data.path: /data/**
+zuul.routes.data.serviceId: msa-weather-data-eureka
+```
+### Kong
+API网关的管理平台 底层也是nginx，提供一些插件，例如验证、日志、调用频率限制
+![kong](readmeImage/kong.png)
+
+
