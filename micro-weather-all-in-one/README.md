@@ -534,6 +534,10 @@ eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
 spring.cloud.config.profile=dev
 spring.cloud.config.uri=http://localhost:8888/
 ```
+### how to run
+1. run `micro-weather-eureka-server`
+2. run `micro-weather-config-server`
+3. run unit test in `micro-weather-config-client` to see the context of files in github properties is retrieved into config client or not
 ### 配置中心的文件的命名规则
 ```
 /{application}/{profile}[/{label}]
