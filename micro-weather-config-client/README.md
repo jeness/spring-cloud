@@ -27,3 +27,11 @@ eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
 
 spring.cloud.config.profile=dev
 spring.cloud.config.uri=http://localhost:8888/
+### 配置中心的文件的命名规则
+```
+/{application}/{profile}[/{label}]
+/{application}-{profile}.yml
+/{label}/{application}-{profile}.yml
+/{application}-{profile}.properties
+/{label}/{application}-{profile}.properties
+```
