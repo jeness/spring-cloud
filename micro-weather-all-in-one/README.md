@@ -473,7 +473,8 @@ API网关的管理平台 底层也是nginx，提供一些插件，例如验证�
 Spring Cloud Config Server Finchley.M2
 + Config server: 使用git
 + Config Client
-### 集成Config Server:
+### Intergrate Config Server:
+一个eureka的client
 ```
 micro-weather-eureka-client -> micro-weather-config-server
 ```
@@ -508,6 +509,38 @@ visit: http://localhost:8888/auther/dev, then can see
 "state": null,
 "propertySources": []
 }
+```
+### Intergrate Config Client
+一个eureka的client
+```
+micro-weather-eureka-client -> micro-weather-config-client
+```
+### Dependency
+```
+dependencies {
+    // Spring Cloud Config Client
+        compile('org.springframework.cloud:spring-cloud-config-client')
+}
+```
+### Application.java 
+Add 注解：@EnableConfigClient
+### change appplication.properties
+```
+spring.application.name: micro-weather-config-client
+server.port=8888
+
+eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
+
+spring.cloud.config.profile=dev
+spring.cloud.config.uri=http://localhost:8888/
+```
+### 配置中心的文件的命名规则
+```
+/{application}/{profile}[/{label}]
+/{application}-{profile}.yml
+/{label}/{application}-{profile}.yml
+/{application}-{profile}.properties
+/{label}/{application}-{profile}.properties
 ```
 	
 
