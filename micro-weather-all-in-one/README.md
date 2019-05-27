@@ -546,7 +546,79 @@ spring.cloud.config.uri=http://localhost:8888/
 /{application}-{profile}.properties
 /{label}/{application}-{profile}.properties
 ```
-	
+# 服务熔断
++ 对该服务的调用执行熔断，对于后续请求，不再继续调用该目标服务，而是直接返回，从而可以快速释放资源
++ 保护系统
+![azure-duanluqi](readmeImage/azure-duanluqi.png)
+![hystrix-error](readmeImage/hystrix-error.png)
+![hystrix-up](readmeImage/hystrix-up.png)
+## 好处
++ 系统稳定
++ 减少性能损耗，提供响应对系统性能开销小
++ 及时响应，不调用其他服务，响应一个错误信息即可
++ 阈值可定制
+## 功能
++ 异常处理
++ 日志记录
++ 测试失败的操作
++ 手动复位
++ 并发
++ 加速断路
++ 重试失败请求
+## 集成Hystrix
+micro-weather-eureka-client-feign -> micro-weather-eureka-client-feign-hystrix
+### Dependency
+```
+	//hystrix
+	compile('org.springframework.cloud:spring-cloud-starter-netflix-netflix-hystrix')
+```
+### how to run
+```
+//Remember to start Redis first!
+// Run eureka server on port 8761 
+F:\webProject\springcloud\micro-weather-eureka-server\build\libs>java -jar micro-weather-eureka-server-1.0.0.jar --server.port=8761
+F:\webProject\springcloud\msa-weather-city-eureka\build\libs>java -jar msa-weather-city-eureka-1.0.0.jar --server.port=8085
+// run micro-weather-eureka-client-feign-hystrix on port 8080 from eclipse
+Then see localhost:8080/cities
+If it is run correctly, then see the city list json.
+Then ctrl-c for city API micro-service in port 8085
+Then can see City Data Server is down! message on localhost:8080/cities
+```
+## Implement 微服务的熔断机制
+msa-weather-report-eureka-feign-gateway->msa-weather-report-eureka-feign-gateway-hystrix
+## How to run
+```
+//Remember to start Redis first!
+// Run eureka server on port 8761 
+F:\webProject\springcloud\micro-weather-eureka-server\build\libs>java -jar micro-weather-eureka-server-1.0.0.jar --server.port=8761
+
+F:\webProject\springcloud\msa-weather-collection-eureka-feign\build\libs>java -jar msa-weather-collection-eureka-feign-1.0.0.jar --server.port=8081
+F:\webProject\springcloud\msa-weather-collection-eureka-feign\build\libs>java -jar msa-weather-collection-eureka-feign-1.0.0.jar --server.port=8082
+F:\webProject\springcloud\msa-weather-data-eureka\build\libs>java -jar msa-weather-data-eureka-1.0.0.jar --server.port=8083
+F:\webProject\springcloud\msa-weather-data-eureka\build\libs>java -jar msa-weather-data-eureka-1.0.0.jar --server.port=8084
+F:\webProject\springcloud\msa-weather-city-eureka\build\libs>java -jar msa-weather-city-eureka-1.0.0.jar --server.port=8085
+F:\webProject\springcloud\msa-weather-city-eureka\build\libs>java -jar msa-weather-city-eureka-1.0.0.jar --server.port=8086
+F:\webProject\springcloud\msa-weather-report-eureka-feign-gateway\build\libs>java -jar msa-weather-report-eureka-feign-gateway-1.0.0.jar --server.port=8087
+F:\webProject\springcloud\msa-weather-report-eureka-feign-gateway\build\libs>java -jar msa-weather-report-eureka-feign-gateway-1.0.0.jar --server.port=8088
+F:\webProject\springcloud\msa-weather-eureka-client-zuul\build\libs>java -jar msa-weather-eureka-client-zuul-1.0.0.jar server.port=8089
+```
+1. 浏览器访问http://localhost:8087/report/cityId/101280601 和 http://localhost:8088/report/cityId/101280601 可以正常使用天气预报app
+![hystrix-console-result](readmeImage/hystrix-console-result.png)
+
+2. 把城市数据API微服务city终止（ctrl-c）掉，
+然后就能看到在http://localhost:8087/report/cityId/101280301 中，只有两个城市信息了，都是在fallback方法中所预先定义的深圳和惠州的数据，其他城市数据就没有了
+
+3. 把天气数据API微服务data终止（ctrl-c)掉，
+然后就能看到在http://localhost:8087/report/cityId/101280301 中,显示天气数据API服务暂不可用
+```
+        <div th:if="${reportModel.report} ==null">
+        	<div class="row">
+        		<p>
+        			天气数据API服务暂不可用!
+        		</p>
+        	</div>
+        </div>
+```
 
 
 
