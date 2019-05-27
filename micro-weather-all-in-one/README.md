@@ -191,6 +191,11 @@ GET /report/cityId/{cityId}
 因为有这些缺点，所以单体架构转向发展微服务架构
 ## 如何将单块架构转为微服务架构
 soa：系统功能打散，一个功能对应一个微服务
+SOA (Service Oriented Architecture)
++ Service provider: public its service and give response to the request
++ Service broker: register the published services, classify them and provide search engine
++ Service consumer: find requested service from service broker and utilize the service
+![soa](readmeImage/soa.png)
 APP可以拆分为以下的服务：城市数据 天气数据 数据同步 天气数据预报
 ## 微服务架构的设计原则
 + 拆分足够微
@@ -405,14 +410,16 @@ http://localhost:8081/hello
 http://localhost:8080/hi/hello
 #### Zuul Intergration in weather app
 ```
+micro-weather-eureka-server //eureka server on port 8761
 msa-weather-collection-eureka-feign 
 msa-weather-data-eureka
 msa-weather-city-eureka
 msa-weather-report-eureka-feign -> msa-weather-report-eureka-feign-gateway
-新增的zuul api：micro-weather-eureka-client-zuul
+新增的zuul api：msa-weather-eureka-client-zuul
 ```
 把report对于data API和city API的依赖修改为依赖Zuul API网关
 ![api-zuul-gateway](readmeImage/api-zuul-gateway.png)
+API gateway 会把对city url的请求route转发到城市数据API微服务上，API gateway也会把对data url的请求route转发到天气数据API微服务上
 + 配置写法
 ```
 spring.application.name: msa-weather-eureka-client-zuul
@@ -424,6 +431,23 @@ zuul.routes.city.serviceId: msa-weather-city-eureka
 zuul.routes.data.path: /data/**
 zuul.routes.data.serviceId: msa-weather-data-eureka
 ```
++ How to run
+```
+//Remember to start Redis first!
+// Run eureka server on port 8761 
+F:\webProject\springcloud\micro-weather-eureka-server\build\libs>java -jar micro-weather-eureka-server-1.0.0.jar --server.port=8761
+
+F:\webProject\springcloud\msa-weather-collection-eureka-feign\build\libs>java -jar msa-weather-collection-eureka-feign-1.0.0.jar --server.port=8081
+F:\webProject\springcloud\msa-weather-collection-eureka-feign\build\libs>java -jar msa-weather-collection-eureka-feign-1.0.0.jar --server.port=8082
+F:\webProject\springcloud\msa-weather-data-eureka\build\libs>java -jar msa-weather-data-eureka-1.0.0.jar --server.port=8083
+F:\webProject\springcloud\msa-weather-data-eureka\build\libs>java -jar msa-weather-data-eureka-1.0.0.jar --server.port=8084
+F:\webProject\springcloud\msa-weather-city-eureka\build\libs>java -jar msa-weather-city-eureka-1.0.0.jar --server.port=8085
+F:\webProject\springcloud\msa-weather-city-eureka\build\libs>java -jar msa-weather-city-eureka-1.0.0.jar --server.port=8086
+F:\webProject\springcloud\msa-weather-report-eureka-feign-gateway\build\libs>java -jar msa-weather-report-eureka-feign-gateway-1.0.0.jar --server.port=8087
+F:\webProject\springcloud\msa-weather-report-eureka-feign-gateway\build\libs>java -jar msa-weather-report-eureka-feign-gateway-1.0.0.jar --server.port=8088
+F:\webProject\springcloud\msa-weather-eureka-client-zuul\build\libs>java -jar msa-weather-eureka-client-zuul-1.0.0.jar server.port=8089
+```
+浏览器访问http://localhost:8087/report/cityId/101280601 和 http://localhost:8088/report/cityId/101280601 可以正常使用天气预报app。
 ### Kong
 API网关的管理平台 底层也是nginx，提供一些插件，例如验证、日志、调用频率限制
 ![kong](readmeImage/kong.png)
