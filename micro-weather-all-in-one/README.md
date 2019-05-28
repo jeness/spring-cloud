@@ -620,5 +620,74 @@ F:\webProject\springcloud\msa-weather-eureka-client-zuul\build\libs>java -jar ms
         </div>
 ```
 
+# 自动扩展 auto-scaling
+## 垂直扩展
+换硬件，2G->4G->8G
+## 水平扩展
+增加成distributed system，1台主机->4台主机->8台主机
+## 微服务实例的自我注册和自我发现
++ 服务注册表
++ eureka server
++ eureka client
+![self-register](readmeImage/self-register.png)
+![ms-self](readmeImage/ms-self.png)
+## 好处
++ 提高了高可用性和容错能力
++ 增加可伸缩性
++ 具有最佳使用率，并节约成本
++ 有限考虑某些服务或服务组
+## auto-scaling的级别
++ 应用程序级别
+需要技术栈相同,infrascture基础架构相同
+![auto-scale-class](readmeImage/auto-scale-class.png)
++ 基础架构级别
+infrastructure也是需要改的，virtual machine也是需要更改的
+因为restructure了 infra，所以会占用更多的系统资源
+![auto-scale-infra](readmeImage/auto-scale-infra.png)
+## auto-scaling的常用方法
++ 资源限制
+![resource-limit](readmeImage/resource-limit.png)
++ 特定时间段
+![time-slot](readmeImage/time-slot.png)
++ 消息长度
+![msg-queue](readmeImage/msg-queue.png)
++ 业务参数
+根据业务时间，业务规则，来auto-scaling
+![parameter](readmeImage/parameter.png)
++ 根据预测
+不基于指标，基于`历史信息`和`当前趋势`
+系统自动预测历史数据的prediction，或者趋势
+对突发的流量进行预测
+## auto scaling的所需功能
++ 容器抽象层，在许多物理或虚拟机上提供统一的抽象
++ 容器编排和初始化系统在集群抽象之后只能管理不是
+## container容器编排
++ 容器边爬李工具提供了一个抽象层来处理大规模的集装箱部署
++ 具备发现、资源管理、监控和部署等功能
+### 容器编排的工作职责
++ 集群管理
++ 自动部署
++ 可伸缩性
++ 运行状况监控
++ 基础架构抽象，容量、利用率
++ 资源优化
++ 资源分配
++ 服务可用性
++ 敏捷性
++ 隔离
+## 资源分配常用算法
+### 传播 spread
+平均分配负载到各个主机上
+![spread](readmeImage/spread.png)
+### 装箱 bin packing
+按需付费
+![bin-packing](readmeImage/bin-packing.png)
+### 随机 random
+随机部署
+![random](readmeImage/random.png)
+## 容器编排技术
+Docker Swarm
+Kubernetes
+Apache Mesos
 
 
