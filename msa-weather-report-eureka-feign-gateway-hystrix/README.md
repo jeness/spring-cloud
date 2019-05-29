@@ -45,8 +45,8 @@ F:\webProject\springcloud\msa-weather-data-eureka\build\libs>java -jar msa-weath
 F:\webProject\springcloud\msa-weather-data-eureka\build\libs>java -jar msa-weather-data-eureka-1.0.0.jar --server.port=8084
 F:\webProject\springcloud\msa-weather-city-eureka\build\libs>java -jar msa-weather-city-eureka-1.0.0.jar --server.port=8085
 F:\webProject\springcloud\msa-weather-city-eureka\build\libs>java -jar msa-weather-city-eureka-1.0.0.jar --server.port=8086
-F:\webProject\springcloud\msa-weather-report-eureka-feign-gateway\build\libs>java -jar msa-weather-report-eureka-feign-gateway-1.0.0.jar --server.port=8087
-F:\webProject\springcloud\msa-weather-report-eureka-feign-gateway\build\libs>java -jar msa-weather-report-eureka-feign-gateway-1.0.0.jar --server.port=8088
+F:\webProject\springcloud\msa-weather-report-eureka-feign-gateway-hystrix\build\libs>java -jar msa-weather-report-eureka-feign-gateway-hystrix-1.0.0.jar --server.port=8087
+F:\webProject\springcloud\msa-weather-report-eureka-feign-gateway-hystrix\build\libs>java -jar msa-weather-report-eureka-feign-gateway-hystrix-1.0.0.jar --server.port=8088
 F:\webProject\springcloud\msa-weather-eureka-client-zuul\build\libs>java -jar msa-weather-eureka-client-zuul-1.0.0.jar server.port=8089
 ```
 浏览器访问http://localhost:8087/report/cityId/101280601 和 http://localhost:8088/report/cityId/101280601 可以正常使用天气预报app

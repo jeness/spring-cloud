@@ -376,7 +376,7 @@ load balancer 处于服务端，从多个服务实例中选择出一个实例
 ### Diagram
 ![server](readmeImage/server-lb.png)
 
-# API 网关
+# API gateway 网关 
 ## 好处
 + 避免将内部信息泄露给外部
 + 为微服务添加额外的安全层
@@ -384,10 +384,10 @@ load balancer 处于服务端，从多个服务实例中选择出一个实例
 + 降低构建微服务的复杂性，从代码层隔离功能项，使得码工更专注于核心业务
 + 微服务模拟与虚拟化，虚拟的API，设计上的要求，做集成测试
 ## 坏处
-+ 在架构上需要额外考虑更多的编排与管理，那些micro service放在哪些API中
-+ 路由逻辑配置要进行统一的管理
-+ 可能引发单点故障，API网关作为单一入口，高并发场景下，一旦宕机，会导致所有micro service不可用
-## API的常见实现方式
++ 在架构上需要额外考虑更多的编排与管理，那些micro service放在哪些API中. More configuration and management needed. 
++ 路由逻辑配置要进行统一的管理 Routing logic need unified management.
++ 可能引发单点故障single point failure，API网关作为单一入口，高并发场景下，一旦宕机，会导致所有micro service不可用
+## API gateway 的常见实现方式
 ### Nginx
 高性能 稳定 低消耗资源 高并发能力
 ![nginx](readmeImage/nginx.png)
